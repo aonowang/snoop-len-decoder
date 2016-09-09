@@ -8,14 +8,14 @@ from functions import *
 
 def main():
 
-    debugFilePath = 'D:\\4_ÎÒµÄÏîÄ¿\\PythonÐ¡¹¤¾ß\\debug dp snooplen½âÂë\\showloggingdebug'
+    debugFilePath = raw_input('input your debug dp snoop-len file path:')
 
     prefuncResult = prefunc(debugFilePath)
     num = prefuncResult['num']
     timeList = prefuncResult['timeList']
     frameList = prefuncResult['frameList']
 
-    ###Ìî³äpackets¶ÔÏóµÄÊôÐÔ-->###
+    ###å¡«å……packetså¯¹è±¡çš„å±žæ€§-->###
     packetList = num *[{}]
     for i in range(num):
         f = frameList[i]
@@ -28,21 +28,21 @@ def main():
             packetList[i].etherType = etherTypeDic[f[24:28]]
         else:
             packetList[i].etherType = 'Other'
-    ###<--Ìî³äpackets¶ÔÏóµÄÊôÐÔ###
+    ###<--å¡«å……packetså¯¹è±¡çš„å±žæ€§###
 
 
-    ###´òÓ¡PPPoEµÄÓÃ»§ÃûÃÜÂë-->###
+    ###æ‰“å°PPPoEçš„ç”¨æˆ·åå¯†ç -->###
     for i in range(num):
         if packetList[i].etherType == 'PPPoE Session Stage':
             if frameList[i][40:44] == 'c023' and framesList[i][44:46] == '01':
                 print 'PPPoE Username:' + getPPPoEUnPw(frameList[i])['Username']
                 print 'PPPoE Password:' + getPPPoEUnPw(frameList[i])['Password']
-    ###<--´òÓ¡PPPoEµÄÓÃ»§ÃûÃÜÂë###
+    ###<--æ‰“å°PPPoEçš„ç”¨æˆ·åå¯†ç ###
 
-    ###´òÓ¡ËùÓÐpacketµÄÒÔÌ«ÀàÐÍ-->###
+    ###æ‰“å°æ‰€æœ‰packetçš„ä»¥å¤ªç±»åž‹-->###
 ##    for i in range(num):
 ##        print str(i+1) + ':' + packetList[i].etherType
-    ###<--´òÓ¡ËùÓÐpacketµÄÒÔÌ«ÀàÐÍ###
+    ###<--æ‰“å°æ‰€æœ‰packetçš„ä»¥å¤ªç±»åž‹###
 
     print 'Packet No. 1 :'
     print packetList[0]
